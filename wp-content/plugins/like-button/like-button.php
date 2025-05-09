@@ -4,10 +4,15 @@
 Plugin Name: Like Button
 Description: Adds a like button to posts
 Version: 1.0
-Author: KTP
+Author: ILE
 */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 // Create table
+
+use JetBrains\PhpStorm\NoReturn;
 
 function create_table(): void {
 	global $wpdb;
@@ -36,10 +41,15 @@ function like_button( $atts ): string {
 
 	$table_name = $wpdb->prefix . 'likes';
 
-	$post_id = get_the_ID();
-	if( isset( $atts['post_id'] ) ) {
-		$post_id = $atts['post_id'];
+	if ( isset( $atts['post_id'] ) && intval($atts['post_id']) > 0 ) {
+		$post_id = intval($atts['post_id']);
+	} elseif ( get_the_ID() ) {
+		$post_id = get_the_ID();
+	} else {
+		global $post;
+		$post_id = isset( $post->ID ) ? $post->ID : 0;
 	}
+	
 
 	$results = $wpdb->get_results( "SELECT * FROM $table_name WHERE post_id = $post_id" );
 
@@ -65,14 +75,13 @@ function like_button( $atts ): string {
 		$icon = 'thumbs-up-outline';
 	}
 
-	$nonce = wp_create_nonce('like_form_nonce');
-	
+	$nonce  = wp_create_nonce( 'like_form_nonce' );
 	$output = '<form id="like-form" method="post" action="' . admin_url( 'admin-post.php' ) . '">';
+	$output .= '<input type="hidden" name="like_form_nonce" value="' . $nonce . '" >';
 	$output .= '<input type="hidden" name="action" value="add_like">';
 	$output .= '<input id="post_id" type="hidden" name="post_id" value="' . $post_id . '">';
 	$output .= '<button id="like-button" type="submit"><ion-icon name="' . $icon . '"></ion-icon></button>';
 	$output .= '<span id="like-count">' . $likes . '</span>';
-	$output .= '<input type="hidden" name="like_form_nonce" value="' . $nonce . '">';
 	$output .= '</form>';
 
 	return $output;
@@ -82,11 +91,11 @@ add_shortcode( 'like_button', 'like_button' );
 
 // Add like to database
 
-function add_like(): void {
+#[NoReturn] function add_like(): void {
 	global $wpdb;
 
-	if (!isset($_POST['like_form_nonce']) || !wp_verify_nonce($_POST['like_form_nonce'], 'like_form_nonce')) {
-		wp_die('Nonce verification failed!');
+	if ( ! isset( $_POST['like_form_nonce'] ) || ! wp_verify_nonce( $_POST['like_form_nonce'], 'like_form_nonce' ) ) {
+		die( 'CSRF token invalid' );
 	}
 
 	$table_name = $wpdb->prefix . 'likes';
@@ -123,7 +132,7 @@ function add_like(): void {
 		$success = $wpdb->insert( $table_name, $data, $format );
 
 		if ( $success ) {
-			echo like_button(['post_id' => $post_id]);
+			echo like_button( [ 'post_id' => $post_id ] );
 		} else {
 			echo 'Error adding like';
 		}
@@ -142,13 +151,13 @@ function add_like(): void {
 		$success = $wpdb->delete( $table_name, $where, $where_format );
 
 		if ( $success ) {
-			echo like_button(['post_id' => $post_id]);
+			echo like_button( [ 'post_id' => $post_id ] );
 		} else {
 			echo 'Error deleting data';
 		}
 	}
 
-	// wp_redirect( $_SERVER['HTTP_REFERER'] ); // kommentoi pois ajax vesiossa
+	wp_redirect( $_SERVER['HTTP_REFERER'] ); // kommentoi pois ajax vesiossa
 	exit;
 }
 

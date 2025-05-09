@@ -19,9 +19,10 @@ get_header();
 </section>
 <main>
     <section class="products">
+        <h2>Products</h2>
         <?php 
         $args = ['child_of' => get_queried_object_id()];
-        $subcategories = get_categories( $args);
+        $subcategories = get_categories( $args);  
         foreach ($subcategories as $category):
             echo '<h2>'.$category->name.'</h2>';
 

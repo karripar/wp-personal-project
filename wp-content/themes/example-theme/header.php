@@ -14,10 +14,11 @@
         <header class="page-header">
             <div class="header-top-left">
                 <?php the_custom_logo(); ?>
+                <h1 class="company-name">Componental</h1>
             </div>
             <div class="header-top-right">
                 <?php
-                wp_nav_menu(["theme_location" => "main-menu", "container" => "nav"]);
+                wp_nav_menu(["theme_location" => "main-menu", "container" => "nav", "menu_class" => "main-nav"]);
                 ?>
             </div>
         </header>
