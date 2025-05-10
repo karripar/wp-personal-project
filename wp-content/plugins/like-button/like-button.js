@@ -1,29 +1,34 @@
-'use strict';
+"use strict";
 
-const likeForm = document.querySelector('#like-form');
+document.addEventListener("DOMContentLoaded", () => {
+  document.querySelectorAll(".like-form").forEach((form) => {
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-if (likeForm) {
-likeForm.addEventListener('submit', async (evt) => {
-    evt.preventDefault()
-    const postId = document.querySelector('#post_id').value;
-    const url = likeButton.ajax_url;
-    const data = new URLSearchParams({
-        action: 'add_like',
-        post_id: postId,
-        like_form_nonce: likeButton.nonce,
-    });
-    const response = await fetch(url, {
-        method: 'POST',
-        body: data,
+      const formData = new FormData(form);
+
+      const response = await fetch(likeButton.ajax_url, {
+        method: "POST",
         headers: {
-            'Content-Type': 'application/x-www-form-urlencoded',
+          "X-WP-Nonce": likeButton.nonce,
         },
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        const countSpan = form.querySelector(".like-count");
+        const icon = form.querySelector("ion-icon");
+
+        countSpan.textContent = result.likes;
+        icon.setAttribute(
+          "name",
+          result.liked ? "thumbs-up" : "thumbs-up-outline"
+        );
+      } else {
+        console.error("Failed to update like status");
+      }
     });
-    const like = await response.text();
-    console.log(like);
-    likeForm.innerHTML = like;
-})
-}
-else {
-    console.log('Like form not found');
-}
+  });
+});

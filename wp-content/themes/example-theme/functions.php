@@ -71,3 +71,33 @@ function mytheme_enqueue_scripts(): void {
     wp_enqueue_script( 'single-post' );
 }
 add_action( 'wp_enqueue_scripts', 'mytheme_enqueue_scripts' );
+
+// Ladataan JavaScript ja annetaan ajaxurl-muuttuja
+add_action('wp_enqueue_scripts', function () {
+    wp_enqueue_script('contact-form-script', get_template_directory_uri() . '/js/scripts.js', [], false, true);
+    wp_localize_script('contact-form-script', 'ajaxurl', ['ajaxurl' => admin_url('admin-ajax.php')]);
+  });
+  
+  // AJAX-käsittelijä
+  add_action('wp_ajax_submit_contact_form', 'handle_contact_form');
+  add_action('wp_ajax_nopriv_submit_contact_form', 'handle_contact_form');
+  
+  function handle_contact_form() {
+    $name = sanitize_text_field($_POST['name']);
+    $message = sanitize_textarea_field($_POST['message']);
+  
+    // Lähetetään viesti WordPressin oletussähköpostiin
+    wp_mail(get_option('admin_email'), "Uusi viesti $name", $message);
+  
+    echo "Thank you for your message, $name!";
+    wp_die();
+  }
+
+  function contact_form_shortcode() {
+    ob_start();
+    include get_template_directory() . '/contact-form.php';
+    return ob_get_clean();
+}
+add_shortcode('contact_form', 'contact_form_shortcode');
+
+  

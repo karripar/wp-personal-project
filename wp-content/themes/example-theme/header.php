@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 
-
 <head>
     <meta charset="<?php bloginfo('charset'); ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <?php wp_head(); ?>
-    
 </head>
 
 <body>
@@ -16,10 +14,17 @@
                 <?php the_custom_logo(); ?>
                 <h1 class="company-name">Componental</h1>
             </div>
+            
             <div class="header-top-right">
-                <?php
-                wp_nav_menu(["theme_location" => "main-menu", "container" => "nav", "menu_class" => "main-nav"]);
-                ?>
+                <nav class="main-nav">
+                    <?php
+                    wp_nav_menu([
+                        "theme_location" => "main-menu",
+                        "container" => false,
+                        "menu_class" => ""
+                    ]);
+                    ?>
+                </nav>
             </div>
         </header>
         <section class="breadcrumbs">
@@ -27,4 +32,3 @@
                 bcn_display();
             } ?>
         </section>
-        
