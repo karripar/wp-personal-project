@@ -72,7 +72,9 @@ function mytheme_enqueue_scripts(): void {
 }
 add_action( 'wp_enqueue_scripts', 'mytheme_enqueue_scripts' );
 
-// Ladataan JavaScript ja annetaan ajaxurl-muuttuja
+
+
+// Ladataan JavaScript ja annetaan ajaxurl-muuttuja. Contact form.
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_script('contact-form-script', get_template_directory_uri() . '/js/scripts.js', [], false, true);
     wp_localize_script('contact-form-script', 'ajaxurl', ['ajaxurl' => admin_url('admin-ajax.php')]);
@@ -100,4 +102,15 @@ add_action('wp_enqueue_scripts', function () {
 }
 add_shortcode('contact_form', 'contact_form_shortcode');
 
-  
+function enqueue_cart_modal_script() {
+    wp_enqueue_script(
+        'cart-modal-script',
+        get_template_directory_uri() . '/js/cartModal.js',
+        [], // Dependencies, if any
+        '1.0',
+        true // Load in footer
+    );
+}
+add_action('wp_enqueue_scripts', 'enqueue_cart_modal_script');
+
+

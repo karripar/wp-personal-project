@@ -11,9 +11,19 @@
 <dialog id="single-post">
     <button id="close">X</button>
     <article class="single" id="modal-content">
-
     </article>
 </dialog>
+<!-- Cart Modal -->
+<div id="cartModal" class="cart-modal">
+  <div class="cart-modal-content">
+    <span class="close-cart-btn">&times;</span>
+    <h2>Your Cart</h2>
+    <div id="cartContent">
+      <?php echo do_shortcode('[view_cart]'); ?>
+    </div>
+  </div>
+</div>
+
 <?php wp_footer(); ?>
 </body>
 

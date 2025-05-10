@@ -13,11 +13,13 @@
             <div class="header-top-left">
                 <?php the_custom_logo(); ?>
                 <h1 class="company-name">Componental</h1>
+                <button class="open-cart-btn" id="open-cart">View Cart</button>
             </div>
-            
+
             <div class="header-top-right">
                 <nav class="main-nav">
                     <?php
+
                     wp_nav_menu([
                         "theme_location" => "main-menu",
                         "container" => false,

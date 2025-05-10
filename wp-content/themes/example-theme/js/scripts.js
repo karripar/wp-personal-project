@@ -1,11 +1,19 @@
 document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("contact-form");
   
+    if (!form) {
+      console.log("Contact form not found.");
+      return;
+    };
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
   
       const formData = new FormData(form);
       formData.append("action", "submit_contact_form");
+
+      // if message is empty, prevent form submission
+      const message = formData.get("message");
   
       fetch(ajaxurl.ajaxurl, {
         method: "POST",

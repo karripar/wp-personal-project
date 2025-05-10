@@ -388,6 +388,15 @@ footer {
     resize: none;
 }
 
+.map {
+  width: 100%;
+  height: 400px;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+}
+
 #single-post {
   background-color: #1e1e1e;
 }
@@ -422,6 +431,158 @@ footer {
   color: #8375ef;
   text-decoration: none;
 }
+
+/* Add to Cart Button Styles */
+.add-to-cart-btn {
+  background-color: #28a745;  /* Green background */
+  color: #fff;  /* White text */
+  font-size: 16px;
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+}
+
+/* Hover effect */
+.add-to-cart-btn:hover {
+  background-color: #218838;  /* Darker green on hover */
+}
+
+/* Focus effect (for accessibility) */
+.add-to-cart-btn:focus {
+  outline: 2px solid #5a6268; /* A nice focus outline */
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.add-to-cart-btn:disabled {
+  background-color: #6c757d;  /* Grey background */
+  cursor: not-allowed;
+}
+
+/* Like Button Styles */
+.like-button {
+  background-color: transparent;
+  border: 2px solid #007bff;  /* Blue border */
+  color: #007bff;  /* Blue text */
+  font-size: 20px;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hover effect */
+.like-button:hover {
+  background-color: #007bff;
+  color: #fff;  /* White text on hover */
+}
+
+/* Active state */
+.like-button:active {
+  transform: scale(0.95);
+}
+
+/* Focus effect */
+.like-button:focus {
+  outline: 2px solid #0056b3;  /* Blue focus outline */
+  outline-offset: 2px;
+}
+
+/* Disabled state */
+.like-button:disabled {
+  background-color: #6c757d;
+  border-color: #6c757d;
+  color: #fff;
+  cursor: not-allowed;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+/* Modal background */
+.cart-modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5); /* Backdrop */
+  backdrop-filter: blur(4px);
+  color: #000;
+}
+
+/* Modal content box */
+.cart-modal-content {
+  background-color: #fff;
+  margin: 5% auto;
+  padding: 2rem;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.open-cart-btn {
+  background-color: #007bff; /* Blue background */
+  color: #fff; /* White text */
+  font-size: 16px;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+/* Close button */
+.close-cart-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #888;
+  transition: color 0.2s ease-in-out;
+}
+
+.close-cart-btn:hover {
+  color: #000;
+}
+
+/* Cart content area */
+#cartContent {
+  margin-top: 1.5rem;
+  color: #333;
+}
+
+/* Optional: Responsive tweaks */
+@media (max-width: 500px) {
+  .cart-modal-content {
+    width: 95%;
+    padding: 1.5rem 1rem;
+  }
+
+  .close-cart-btn {
+    font-size: 1.25rem;
+  }
+}
+
+
 
 @media (min-width: 768px) {
   .container {
